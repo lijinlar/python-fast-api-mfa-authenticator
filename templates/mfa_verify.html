@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}MFA Verification - PyOTP App{% endblock %}
+
+{% block content %}
+<div class="logo">🔐 PyOTP</div>
+<h1 style="margin-bottom: 30px; color: #333;">Two-Factor Authentication</h1>
+
+<div style="margin-bottom: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+    <h3 style="color: #667eea; margin-bottom: 15px;">🔐 Security Verification</h3>
+    <p style="color: #666; line-height: 1.6;">
+        Please enter the 6-digit code from your Google Authenticator app to complete the sign-in process.
+    </p>
+</div>
+
+<form method="POST" action="/mfa-verify">
+    <input type="hidden" name="token" value="{{ token }}">
+    
+    <div class="form-group">
+        <label for="code">Authentication Code</label>
+        <input type="text" id="code" name="code" placeholder="Enter 6-digit code" 
+               pattern="[0-9]{6}" maxlength="6" required 
+               style="text-align: center; font-size: 18px; letter-spacing: 2px;">
+    </div>
+    
+    <button type="submit" class="btn">Verify Code</button>
+</form>
+
+<div class="links">
+    <p><a href="/login">← Back to Sign In</a></p>
+</div>
+
+<script>
+    // Auto-focus on the code input
+    document.getElementById('code').focus();
+    
+    // Auto-submit when 6 digits are entered
+    document.getElementById('code').addEventListener('input', function() {
+        if (this.value.length === 6) {
+            this.form.submit();
+        }
+    });
+</script>
+{% endblock %}

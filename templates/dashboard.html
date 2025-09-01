@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - PyOTP App{% endblock %}
+
+{% block content %}
+<div class="logo">🔐 PyOTP</div>
+<h1 style="margin-bottom: 30px; color: #333;">Welcome, {{ user.name }}!</h1>
+
+{% if request.query_params.get('mfa_disabled') %}
+<div style="margin-bottom: 30px; padding: 20px; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px;">
+    <h3 style="color: #155724; margin-bottom: 10px;">✅ MFA Disabled</h3>
+    <p style="color: #155724; line-height: 1.6;">
+        Two-factor authentication has been successfully disabled for your account. 
+        You can re-enable it anytime from the dashboard for enhanced security.
+    </p>
+</div>
+{% endif %}
+
+{% if request.query_params.get('mfa_enabled') %}
+<div style="margin-bottom: 30px; padding: 20px; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px;">
+    <h3 style="color: #155724; margin-bottom: 10px;">✅ MFA Enabled</h3>
+    <p style="color: #155724; line-height: 1.6;">
+        Two-factor authentication has been successfully enabled for your account! 
+        Your account is now protected with an additional security layer.
+    </p>
+</div>
+{% endif %}
+
+<div class="user-info">
+    <h3>Account Information</h3>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Name:</strong> {{ user.name }}</p>
+    <p><strong>Member since:</strong> {{ user.created_at.strftime('%B %d, %Y') }}</p>
+    <p><strong>MFA Status:</strong> 
+        <span class="mfa-status {% if user.mfa_enabled %}mfa-enabled{% else %}mfa-disabled{% endif %}">
+            {% if user.mfa_enabled %}Enabled ✅{% else %}Disabled ❌{% endif %}
+        </span>
+    </p>
+</div>
+
+<div style="display: flex; gap: 15px; flex-direction: column;">
+    {% if not user.mfa_enabled %}
+        <a href="/setup-mfa" class="btn">🔐 Setup Two-Factor Authentication</a>
+    {% else %}
+        <a href="/disable-mfa" class="btn" style="background: #dc3545;" onclick="return confirm('Are you sure you want to disable MFA? This will make your account less secure.')">🔓 Disable Two-Factor Authentication</a>
+    {% endif %}
+    
+    <form method="POST" action="/logout" style="margin: 0;">
+        <button type="submit" class="btn btn-secondary">🚪 Sign Out</button>
+    </form>
+</div>
+
+<div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+    <h3 style="color: #667eea; margin-bottom: 15px;">Security Tips</h3>
+    <ul style="text-align: left; color: #666; line-height: 1.8;">
+        {% if not user.mfa_enabled %}
+            <li>🔐 Enable two-factor authentication for enhanced security</li>
+        {% else %}
+            <li>✅ Two-factor authentication is enabled - your account is secure!</li>
+        {% endif %}
+        <li>🔑 Use a strong, unique password</li>
+        <li>📱 Keep your Google Authenticator app secure</li>
+        <li>🚪 Always sign out when using shared devices</li>
+    </ul>
+</div>
+{% endblock %}

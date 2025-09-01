@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}MFA Already Setup - PyOTP App{% endblock %}
+
+{% block content %}
+<div class="logo">🔐 PyOTP</div>
+<h1 style="margin-bottom: 30px; color: #333;">Two-Factor Authentication</h1>
+
+<div style="margin-bottom: 30px; padding: 20px; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px;">
+    <h3 style="color: #155724; margin-bottom: 15px;">✅ Already Enabled</h3>
+    <p style="color: #155724; line-height: 1.6;">
+        Two-factor authentication is already enabled for your account. Your account is secure!
+    </p>
+</div>
+
+<div class="user-info">
+    <h3>Account Information</h3>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Name:</strong> {{ user.name }}</p>
+    <p><strong>MFA Status:</strong> 
+        <span class="mfa-status mfa-enabled">Enabled ✅</span>
+    </p>
+</div>
+
+<div style="display: flex; gap: 15px; flex-direction: column;">
+    <a href="/dashboard" class="btn">← Back to Dashboard</a>
+    
+    <form method="POST" action="/logout" style="margin: 0;">
+        <button type="submit" class="btn btn-secondary">🚪 Sign Out</button>
+    </form>
+</div>
+
+<div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+    <h3 style="color: #667eea; margin-bottom: 15px;">Security Status</h3>
+    <ul style="text-align: left; color: #666; line-height: 1.8;">
+        <li>✅ Two-factor authentication is active</li>
+        <li>🔐 Your account is protected with an additional security layer</li>
+        <li>📱 Make sure to keep your Google Authenticator app secure</li>
+        <li>💾 Consider backing up your recovery codes if available</li>
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome - PyOTP App{% endblock %}
+
+{% block content %}
+<div class="logo">🔐 PyOTP</div>
+<h1 style="margin-bottom: 30px; color: #333;">Welcome to PyOTP</h1>
+<p style="margin-bottom: 30px; color: #666; line-height: 1.6;">
+    A secure authentication system with Multi-Factor Authentication (MFA) support using Google Authenticator.
+</p>
+
+<div style="display: flex; gap: 15px; flex-direction: column;">
+    <a href="/signup" class="btn">Create Account</a>
+    <a href="/login" class="btn btn-secondary">Sign In</a>
+</div>
+
+<div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+    <h3 style="color: #667eea; margin-bottom: 15px;">Features</h3>
+    <ul style="text-align: left; color: #666; line-height: 1.8;">
+        <li>🔒 Secure user registration and authentication</li>
+        <li>📱 Google Authenticator MFA support</li>
+        <li>💾 SQLite database for data persistence</li>
+        <li>🎨 Modern, responsive UI</li>
+        <li>🔐 JWT-based session management</li>
+    </ul>
+</div>
+{% endblock %}

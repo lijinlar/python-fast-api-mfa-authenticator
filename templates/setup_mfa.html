@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Setup MFA - PyOTP App{% endblock %}
+
+{% block content %}
+<div class="logo">🔐 PyOTP</div>
+<h1 style="margin-bottom: 30px; color: #333;">Setup Two-Factor Authentication</h1>
+
+<div style="margin-bottom: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+    <h3 style="color: #667eea; margin-bottom: 15px;">📱 Google Authenticator Setup</h3>
+    <p style="color: #666; line-height: 1.6;">
+        Scan the QR code below with your Google Authenticator app, or manually enter the secret key.
+    </p>
+</div>
+
+<div class="qr-code">
+    <h4 style="margin-bottom: 15px; color: #333;">QR Code</h4>
+    <img src="{{ qr_code }}" alt="QR Code for Google Authenticator">
+</div>
+
+<div style="margin-bottom: 30px;">
+    <h4 style="margin-bottom: 10px; color: #333;">Secret Key (Manual Entry)</h4>
+    <div class="secret-key">{{ secret }}</div>
+    <p style="font-size: 12px; color: #666; margin-top: 5px;">
+        Use this key if you can't scan the QR code
+    </p>
+</div>
+
+<div style="margin-bottom: 30px; padding: 20px; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px;">
+    <h4 style="color: #856404; margin-bottom: 10px;">⚠️ Important</h4>
+    <ul style="text-align: left; color: #856404; line-height: 1.6; font-size: 14px;">
+        <li>Save this secret key in a secure location</li>
+        <li>You'll need it to recover your account if you lose your device</li>
+        <li>The QR code and secret key will only be shown once</li>
+    </ul>
+</div>
+
+<form method="POST" action="/enable-mfa">
+    <input type="hidden" name="secret" value="{{ secret }}">
+    
+    <div class="form-group">
+        <label for="code">Verification Code</label>
+        <input type="text" id="code" name="code" placeholder="Enter 6-digit code from app" 
+               pattern="[0-9]{6}" maxlength="6" required 
+               style="text-align: center; font-size: 18px; letter-spacing: 2px;">
+    </div>
+    
+    <button type="submit" class="btn">Enable Two-Factor Authentication</button>
+</form>
+
+<div class="links">
+    <p><a href="/dashboard">← Back to Dashboard</a></p>
+</div>
+
+<script>
+    // Auto-focus on the code input
+    document.getElementById('code').focus();
+    
+    // Auto-submit when 6 digits are entered
+    document.getElementById('code').addEventListener('input', function() {
+        if (this.value.length === 6) {
+            this.form.submit();
+        }
+    });
+</script>
+{% endblock %}
